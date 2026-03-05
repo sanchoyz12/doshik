@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Пульс: Путь к Дошираку</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+</head>
+
+<body>
+    <div class="mobile-app-container">
+        <!-- Start Screen -->
+        <div id="start-screen" class="screen full-screen active">
+            <div class="logo-container">
+                <div class="logo-icon glass-pulse">П</div>
+                <h1>ПУЛЬС</h1>
+                <p class="subtitle">Путь к элитному дошираку v2.0</p>
+            </div>
+
+            <div class="intro-card glass-panel">
+                <div class="avatar-container">
+                    <div class="character-avatar" id="nastya-avatar">👩‍💼</div>
+                </div>
+                <h2>Настя-бухгалтер</h2>
+                <p>Привет. Я бухгалтер Настя. Моя цель — заработать на премиальный Доширак (50к ₽), а может и на Ламбу
+                    (1М ₽). Главное — не словить маржин-колл!</p>
+                <div class="goal-box">Цель: 50 000 ₽</div>
+                <button id="start-btn" class="primary-btn pulse-glow">Влететь на всю котлету</button>
+            </div>
+        </div>
+
+        <!-- Main App layout -->
+        <div id="main-app" class="screen full-screen">
+            <!-- Header (always visible) -->
+            <header class="app-header glass-panel transparent top-sticky">
+                <div class="profile-info">
+                    <div class="avatar-small">👩‍💼</div>
+                    <div class="profile-text">
+                        <span class="username">Nastya_Buh</span>
+                        <span id="header-equity" class="user-status text-white font-bold">10 000 ₽</span>
+                    </div>
+                </div>
+                <div class="day-counter">
+                    <span class="day-label">День</span>
+                    <span id="current-day" class="day-value">1</span>
+                </div>
+            </header>
+
+            <!-- Scrollable Content Tabs -->
+            <div class="tab-content scrollable" id="tab-portfolio" style="display: block;">
+                <section class="portfolio-widget glass-panel padding-box">
+                    <div class="portfolio-header">
+                        <h3>Баланс и активы</h3>
+                    </div>
+                    <div class="balance-display text-center">
+                        <span id="total-balance">10 000,00</span> <span class="currency">₽</span>
+                        <div id="daily-profit" class="profit-badge positive">+0.00%</div>
+                    </div>
+
+                    <div class="portfolio-stats grid-2">
+                        <div class="stat">
+                            <span class="stat-label">Доступно</span>
+                            <span class="stat-value" id="cash-balance">10 000,00 ₽</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">В позициях</span>
+                            <span class="stat-value" id="assets-value">0,00 ₽</span>
+                        </div>
+                    </div>
+
+                    <div class="margin-indicator">
+                        <div class="margin-header">
+                            <span class="margin-label">Уровень маржи</span>
+                            <span id="margin-status" class="safe">Безопасный</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div id="margin-bar" class="progress-bar" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="glass-panel padding-box mt-16">
+                    <div class="portfolio-header">
+                        <h3>Мои Акции</h3>
+                    </div>
+                    <div class="assets-list" id="my-assets-list">
+                        <!-- Only owned assets here -->
+                        <div class="empty-state">Нет открытых позиций! Перейдите на Биржу.</div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="tab-content scrollable" id="tab-exchange" style="display: none;">
+                <section class="trading-terminal glass-panel padding-box">
+                    <h3 class="section-title">Биржа</h3>
+                    <div class="assets-list" id="exchange-assets-list">
+                        <!-- All exchange assets -->
+                    </div>
+                </section>
+            </div>
+
+            <div class="tab-content scrollable" id="tab-pulse" style="display: none;">
+                <section class="pulse-feed glass-panel padding-box">
+                    <h3 class="section-title">Лента Пульса</h3>
+                    <div class="feed-container" id="pulse-feed-container">
+                        <!-- Posts -->
+                    </div>
+                </section>
+            </div>
+
+            <!-- Floating Action Button -->
+            <button id="next-day-btn" class="primary-btn fab-next-day pulse-glow" style="display: none;">
+                След. день ⏭
+            </button>
+
+            <!-- Bottom Navigation -->
+            <nav class="bottom-nav glass-panel top-bordered" id="bottom-navigation" style="display: none;">
+                <button class="nav-item active" data-tab="portfolio">
+                    <div class="nav-icon">💼</div>
+                    <span>Портфель</span>
+                </button>
+                <button class="nav-item" data-tab="exchange">
+                    <div class="nav-icon">📈</div>
+                    <span>Биржа</span>
+                </button>
+                <button class="nav-item" data-tab="pulse">
+                    <div class="nav-icon">💬</div>
+                    <span>Пульс</span>
+                </button>
+            </nav>
+        </div>
+
+        <!-- Trade Bottom Sheet -->
+        <div id="trade-sheet" class="bottom-sheet-modal">
+            <div class="sheet-overlay" id="close-trade-overlay"></div>
+            <div class="sheet-content glass-panel sweep-up">
+                <div class="sheet-handle"></div>
+                <div class="sheet-header">
+                    <h2 id="trade-asset-name" class="accent-text mb-0">Активация</h2>
+                    <button class="close-btn" id="close-trade">&times;</button>
+                </div>
+
+                <div class="price-display text-center">
+                    <span id="trade-asset-price" class="price-value">0</span> <span class="currency">₽</span>
+                </div>
+
+                <div class="portfolio-position glass-panel inner-panel text-center">
+                    <p class="mb-0">В портфеле: <span id="owned-quantity" class="font-bold">0</span> шт. на сумму <span
+                            id="owned-value" class="font-bold">0</span> ₽</p>
+                </div>
+
+                <div class="leverage-selector">
+                    <div class="leverage-header">
+                        <label for="leverage-slider">Плечо: <span class="accent-text">x<span
+                                    id="leverage-value">1</span></span></label>
+                    </div>
+                    <input type="range" id="leverage-slider" min="1" max="100" value="1" class="slider" step="1">
+                    <p class="leverage-warning text-center" id="leverage-warning">x1 = Только свои (скучно)</p>
+                </div>
+
+                <div class="amount-selector">
+                    <div class="quantity-controls">
+                        <button id="qty-minus" class="icon-btn-lg">-</button>
+                        <input type="number" id="trade-quantity" min="1" value="1">
+                        <button id="qty-plus" class="icon-btn-lg">+</button>
+                        <button id="qty-max" class="text-btn outline-btn">MAX</button>
+                    </div>
+                </div>
+
+                <div class="trade-summary">
+                    <div class="summary-row"><span>Позиция:</span> <span id="trade-total-position">0 ₽</span></div>
+                    <div class="summary-row"><span>Свои:</span> <span class="text-white" id="trade-own-funds">0 ₽</span>
+                    </div>
+                    <div class="summary-row"><span>Заемные:</span> <span class="danger-text" id="trade-borrowed-funds">0
+                            ₽</span></div>
+                </div>
+
+                <div class="trade-actions">
+                    <button id="sell-btn" class="sell-action-btn" disabled>Продать всё</button>
+                    <button id="buy-btn" class="buy-action-btn">Купить</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Over / Endings Modal - Full Screen -->
+        <div id="ending-modal" class="modal full-screen-modal">
+            <div class="modal-content glass-panel" id="ending-content-box">
+                <div class="avatar-container" id="ending-avatar-box">
+                    <div class="character-avatar" id="ending-avatar">🎬</div>
+                </div>
+                <h2 class="glow text-center" id="ending-title">КОНЕЦ ИГРЫ</h2>
+                <h3 class="author-name text-center" id="ending-author">Автор</h3>
+                <p class="modal-message text-center" id="ending-message">Описание концовки</p>
+
+                <div class="stats-box inner-panel text-center">
+                    <p class="mb-1">Выживал дней: <span id="ending-days" class="accent-text font-bold">0</span></p>
+                    <p class="mb-0">Итог: <span id="ending-balance" class="accent-text font-bold">0 ₽</span></p>
+                </div>
+
+                <button id="restart-btn" class="primary-btn mt-24">Начать заново</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
